@@ -124,6 +124,7 @@
 
   function getUnitElapsed(unit) {
     const t = unitTimers[unit];
+    if (!t) return 0;
     return t.accumulated + (t.running ? Date.now() - t.startedAt : 0);
   }
 
