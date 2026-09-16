@@ -78,7 +78,7 @@
 
   function updateUnitTimerDisplay() {
     UNITS.forEach(u => {
-      const el = document.getElementById(`unit-timer-${u.replace(" ","")}`);
+      const el = document.getElementById(`unit-timer-${u.replace(/\s+/g,"")}`);
       if (el) el.textContent = fmt(getUnitElapsed(u));
     });
   }
@@ -88,7 +88,7 @@
     const isRunning = unitTimers[u].running;
     return `<div class="unit-timer-bar">
       <span class="unit-timer-label">${isRunning ? '<span class="active-dot"></span>' : ''}${u}</span>
-      <span class="unit-timer-val" id="unit-timer-${u.replace(" ","")}">${fmt(elapsed)}</span>
+      <span class="unit-timer-val" id="unit-timer-${u.replace(/\s+/g,"")}">${fmt(elapsed)}</span>
     </div>`;
   }).join("");
 
@@ -251,7 +251,7 @@
 
   function showSummary() {
     const s = stats();
-    const w3Time = getUnitElapsed("3 West");
+    const w3Time = getUnitElapsed("3 West & ICU");
     const e2Time = getUnitElapsed("2 East");
     render(`
       <h1>Session Summary</h1>
@@ -259,11 +259,11 @@
 
       <div class="section-title">🏥 Time Spent Per Unit</div>
       <div class="stat-row">
-        ${statBox("3 West", fmt(w3Time))}
+        ${statBox("3 West & ICU", fmt(w3Time))}
         ${statBox("2 East", fmt(e2Time))}
       </div>
       <div class="stat-row">
-        ${statBox("3 West (min)", w3Time > 0 ? fmtMin(w3Time) : "—")}
+        ${statBox("3 West & ICU (min)", w3Time > 0 ? fmtMin(w3Time) : "—")}
         ${statBox("2 East (min)", e2Time > 0 ? fmtMin(e2Time) : "—")}
       </div>
 
@@ -295,11 +295,11 @@
   }
 
   function buildPatientRows() {
-    const w3 = parseFloat(fmtMin(getUnitElapsed("3 West"))) || 0;
+    const w3 = parseFloat(fmtMin(getUnitElapsed("3 West & ICU"))) || 0;
     const e2 = parseFloat(fmtMin(getUnitElapsed("2 East"))) || 0;
     const combined = (w3 + e2).toFixed(2);
     return records.map(r => {
-      const unitTime = r.unit === "3 West" ? w3.toFixed(2) : e2.toFixed(2);
+      const unitTime = r.unit === "3 West & ICU" ? w3.toFixed(2) : e2.toFixed(2);
       return [r.date, r.unit, r.visit_window, r.room, r.available, r.time_min, r.notes || ""];
     });
   }
@@ -316,10 +316,10 @@
       if (r.available === "Yes") sessionMap[key].seen++;
       else sessionMap[key].unavailable++;
     });
-    const w3 = parseFloat(fmtMin(getUnitElapsed("3 West"))) || 0;
+    const w3 = parseFloat(fmtMin(getUnitElapsed("3 West & ICU"))) || 0;
     const e2 = parseFloat(fmtMin(getUnitElapsed("2 East"))) || 0;
     return Object.values(sessionMap).map(s => {
-      const unitTime = s.unit === "3 West" ? w3.toFixed(2) : e2.toFixed(2);
+      const unitTime = s.unit === "3 West & ICU" ? w3.toFixed(2) : e2.toFixed(2);
       return [s.date, s.unit, s.visit_window, s.attempted, s.seen, s.unavailable, unitTime];
     });
   }
