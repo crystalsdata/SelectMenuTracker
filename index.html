@@ -32,10 +32,15 @@
 
   const today = () => new Date().toISOString().slice(0, 10);
   const getWindow = () => {
-    const m = new Date().getHours() * 60 + new Date().getMinutes();
-    if (m < 9 * 60 + 30) return "8:00 AM";
-    if (m < 13 * 60) return "11:00 AM";
-    return "2:30 PM";
+    const now = new Date();
+    const totalMinutes = now.getHours() * 60 + now.getMinutes();
+    const roundedMinutes = Math.round(totalMinutes / 30) * 30;
+    const h = Math.floor(roundedMinutes / 60) % 24;
+    const m = roundedMinutes % 60;
+    const roundedH = h % 12 || 12;
+    const suffix = h < 12 ? "AM" : "PM";
+    const minDisplay = m === 0 ? "00" : "30";
+    return `${roundedH}:${minDisplay} ${suffix}`;
   };
   const sessionWindow = getWindow();
 
