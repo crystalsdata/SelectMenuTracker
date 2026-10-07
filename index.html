@@ -4,16 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>✨ Select Menu Visit Tracker</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles-Halloween.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 <div style="position:relative;display:inline-block;max-width:420px;width:100%">
-  <!-- Baroque SVG corner ornaments -->
-  <div class="mirror-corner tl"></div>
-  <div class="mirror-corner tr"></div>
-  <div class="mirror-corner bl"></div>
-  <div class="mirror-corner br"></div>
+
+<div class="corner-icon-ur"></div>
   <div class="card" id="app"></div>
 </div>
 
@@ -210,25 +207,25 @@
   }
 
   function showSaved() {
-    const last = records[records.length - 1];
-    const isAvail = last.available === "Yes";
-    render(`
-      <h1>${isAvail ? "Visit recorded!" : "Marked unavailable"}</h1>
-      <div class="sub">Room ${last.room} · ${last.unit}</div>
-      ${isAvail ? `<div class="saved-time">${last.time_display}</div>` : ""}
-      <div style="text-align:center;margin-bottom:1rem">
-        <span style="font-size:16px;font-weight:700;color:#c2185b;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px">Notes <span style="font-weight:400;font-size:13px;color:#b09080">(optional)</span></span>
-        <textarea id="noteInput" placeholder="e.g. patient with provider" style="padding:0.9rem 1rem;font-size:15px;width:100%;border-radius:4px;border:1px solid #c9a96e;font-family:'Raleway',sans-serif;color:#4a2040;background:rgba(255,245,235,0.8);resize:none;height:80px;"></textarea>
-      </div>
-      <button class="btn btn-blue btn-block" onclick="saveNoteAndContinue()">Next Room →</button>
-      <div style="color:#9e6b8a;font-size:13px;margin-bottom:1rem">Total records this session: ${records.length}</div>
-      <div class="btn-row">
-        <button class="btn btn-gray" onclick="saveNoteAndChangeUnit()">Change Unit</button>
-        <button class="btn btn-green" onclick="saveNoteAndEndSession()">End Session</button>
-      </div>
-      <div style="margin-top:1rem">${unitTimerBars()}</div>
-    `);
-  }
+  const last = records[records.length - 1];
+  const isAvail = last.available === "Yes";
+  render(`
+    <h1>${isAvail ? "Visit recorded!" : "Marked unavailable"}</h1>
+    <div class="sub">Room ${last.room} · ${last.unit}</div>
+    ${isAvail ? `<div class="saved-time">${last.time_display}</div>` : ""}
+    <div style="text-align:center;margin-bottom:1rem">
+      <span class="notes-label">Notes <span class="notes-optional">(optional)</span></span>
+      <textarea id="noteInput" class="notes-textarea" placeholder="e.g. patient with provider"></textarea>
+    </div>
+    <button class="btn btn-blue btn-block" onclick="saveNoteAndContinue()">Next Room →</button>
+    <div style="color:#9d8bc7;font-size:13px;margin-bottom:1rem">Total records this session: ${records.length}</div>
+    <div class="btn-row">
+      <button class="btn btn-gray" onclick="saveNoteAndChangeUnit()">Change Unit</button>
+      <button class="btn btn-green" onclick="saveNoteAndEndSession()">End Session</button>
+    </div>
+    <div style="margin-top:1rem">${unitTimerBars()}</div>
+  `);
+}
 
   function getNoteValue() {
     const el = document.getElementById("noteInput");
